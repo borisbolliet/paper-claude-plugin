@@ -15,7 +15,8 @@
       "tags": ["latex", "mnras", "astronomy", "scientific-writing", "bibtex", "valency-mcp"],
       "source": {
         "source": "url",
-        "url": "https://github.com/borisbolliet/paper-claude-plugin.git"
+        "url": "https://github.com/borisbolliet/paper-claude-plugin.git",
+        "sha": "c0856cd1b4886b15db6a47d23d9aa3b61ccd2303"
       },
       "homepage": "https://github.com/borisbolliet/paper-claude-plugin"
     }
