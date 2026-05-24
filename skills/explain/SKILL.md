@@ -102,35 +102,75 @@ Use this when:
 - Text consistency with paper body matters
 - Sparse data can be hand-coded
 
-Minimal TikZ preamble in `paper.tex`:
+**Preamble**:
 
 ```latex
+\usepackage[dvipsnames]{xcolor}                   % NavyBlue, BrickRed, etc.
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,calc}
+\usetikzlibrary{positioning,arrows.meta,fit,backgrounds,calc}
 ```
 
-Minimal flow:
+**Recommended pattern**: absolute (x, y) coordinates with
+`scale=0.95, every node/.style={transform shape}`, a small palette
+of named `dvipsnames` colours, and one named style per node role.
+Avoid the `positioning` library's `right=of ...` chains for complex
+layouts — they break under refactor and produce cramped output. Use
+explicit coordinates instead.
 
 ```latex
-\begin{tikzpicture}[
-  font=\small, node distance=8mm and 11mm,
-  every node/.style={align=center, inner sep=4pt},
-  box/.style={rectangle, rounded corners=2pt, draw=black!50,
-              line width=0.4pt, minimum height=10mm, minimum width=20mm},
-  inp/.style={box, fill=blue!8},
-  arr/.style={-{Stealth[length=2mm]}, line width=0.5pt, draw=black!65},
+\begin{tikzpicture}[scale=0.95, every node/.style={transform shape},
+  box/.style    ={draw, rounded corners=3pt, minimum height=1.4cm,
+                  font=\small, align=center, thick},
+  inp/.style    ={box, fill=NavyBlue!10,    text=NavyBlue!90!black,
+                  minimum width=1.6cm,      minimum height=1.0cm},
+  core/.style   ={box, fill=NavyBlue!20,    text=NavyBlue!90!black,
+                  minimum width=3.2cm,      minimum height=2.0cm},
+  proc/.style   ={box, fill=ForestGreen!15, text=ForestGreen!70!black,
+                  minimum width=3.0cm,      minimum height=1.1cm},
+  store/.style  ={box, fill=BurntOrange!18, text=BurntOrange!75!black,
+                  minimum width=2.6cm,      minimum height=2.0cm},
+  emph/.style   ={box, fill=BrickRed!15,    text=BrickRed!80!black,
+                  minimum width=2.6cm,      minimum height=2.0cm},
+  outbox/.style ={box, fill=NavyBlue!10,    text=NavyBlue!90!black,
+                  minimum width=1.6cm,      minimum height=1.0cm},
+  arr/.style    ={-{Stealth[length=4pt]}, thick, gray!60},
 ]
-  \node[inp]                       (input) {input};
-  \node[box, right=of input]       (mid)   {middle};
-  \node[inp, right=of mid]         (out)   {output};
-  \draw[arr] (input) -- (mid);
-  \draw[arr] (mid)   -- (out);
+  \node[inp]    (input) at ( 0.0, 0) {\textbf{input}\\[-1pt]{\scriptsize $\theta$}};
+  \node[core]   (proc)  at ( 3.0, 0) {\textbf{processor}\\[1pt]
+                                        {\scriptsize subtitle}\\[-1pt]
+                                        {\scriptsize detail}};
+  \node[outbox] (out)   at ( 6.0, 0) {\textbf{output}\\[-1pt]{\scriptsize $y$}};
+  \draw[arr] (input.east) -- (proc.west);
+  \draw[arr] (proc.east)  -- (out.west);
 \end{tikzpicture}
 ```
 
-**Pitfall**: do NOT name a TikZ style `out` — it clashes with the
-built-in `/tikz/out` key (used by arrow path-bending). Use `outbox`,
-`output_box`, etc.
+**Why this pattern works**:
+
+- **Distinct visual roles** via the named styles (`inp`, `core`,
+  `proc`, `store`, `emph`, `outbox`) — readers visually parse the
+  diagram faster.
+- **Dark text on light fill** (`text=NavyBlue!90!black` on
+  `fill=NavyBlue!10`) reads cleanly in print.
+- **Absolute coordinates** mean adding/moving a single node doesn't
+  break the rest of the layout.
+- **Multi-line labels** via explicit `\\[-1pt]{\scriptsize ...}` give
+  a clean primary/secondary text hierarchy.
+- **Stealth arrows at `length=4pt, thick, gray!60`** look professional
+  — avoid the matplotlib-default `>->` style.
+- **Corner-routed arrows** (`(a.east) -| (b.north)`) keep flowcharts
+  clean when boxes aren't co-linear.
+
+**Pitfalls** (learned the hard way):
+
+- Do NOT name a TikZ style `out` (or `in`, `at`, `to`, `from`, `pos`,
+  `angle`, `loop`, `bend`) — they clash with built-in pgfkeys keys
+  and you'll see cryptic *"The key '/tikz/out' requires a value"*
+  errors. Suffix with `box`, `node`, `_block` to disambiguate.
+- Do NOT mix `positioning`-library `right=of ...` chains with absolute
+  coordinates; pick one. For 6+ nodes, absolute coordinates win.
+- The `dvipsnames` xcolor option must come BEFORE `\usepackage{tikz}`
+  in the preamble.
 
 ## Citation style
 
