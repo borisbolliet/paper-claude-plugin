@@ -1,22 +1,9 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "paper",
-  "displayName": "Scientific paper writing",
-  "description": "Specialised Claude assistance for writing scientific papers in LaTeX (MNRAS, A&A, ApJ, JCAP styles). Scaffolds new paper repos with the right class file + Makefile + bibtex layout; populates references via valency-mcp; builds + reports errors; bundles a knowledge skill with style rules and recipes learned from real submissions.",
   "version": "0.1.0",
+  "description": "Scientific paper writing in LaTeX (MNRAS, A&A, ApJ, JCAP). Scaffolds repos with the right class file + Makefile + bibtex layout, populates references via valency-mcp, builds + reports errors, bundles a knowledge skill with style rules and recipes learned from real submissions.",
   "author": {
     "name": "Boris Bolliet",
     "email": "boris.bolliet@gmail.com"
-  },
-  "homepage": "https://github.com/borisbolliet/paper-claude-plugin",
-  "license": "MIT",
-  "keywords": [
-    "latex",
-    "mnras",
-    "astronomy",
-    "astrophysics",
-    "scientific-writing",
-    "bibtex",
-    "valency-mcp"
-  ]
+  }
 }
