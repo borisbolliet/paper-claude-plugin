@@ -1,5 +1,4 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "paper-claude-plugin",
   "owner": {
     "name": "Boris Bolliet",
@@ -9,15 +8,11 @@
   "plugins": [
     {
       "name": "paper",
+      "source": "./plugins/paper",
       "description": "Scientific paper writing in LaTeX (MNRAS, A&A, ApJ, JCAP). Scaffolds repos with the right class file + Makefile + bibtex layout, populates references via valency-mcp, builds + reports errors, bundles a knowledge skill with style rules and recipes learned from real submissions.",
       "version": "0.1.0",
       "category": "writing",
       "tags": ["latex", "mnras", "astronomy", "scientific-writing", "bibtex", "valency-mcp"],
-      "source": {
-        "source": "url",
-        "url": "https://github.com/borisbolliet/paper-claude-plugin.git",
-        "sha": "c0856cd1b4886b15db6a47d23d9aa3b61ccd2303"
-      },
       "homepage": "https://github.com/borisbolliet/paper-claude-plugin"
     }
   ]
