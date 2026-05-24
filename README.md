@@ -42,17 +42,26 @@ references) and your favourite plotting/code plugin.
 
 ## Install
 
-Local testing (no marketplace needed):
-
-```bash
-claude --plugin-dir ~/GitHub/paper-claude-plugin
-```
-
-From a marketplace (once published):
+In any Claude Code session, run these three commands:
 
 ```
-/plugin marketplace add <owner>/<marketplace-repo>
-/plugin install paper@<marketplace-name>
+/plugin marketplace add https://github.com/borisbolliet/paper-claude-plugin.git
+/plugin install paper@paper-claude-plugin
+/reload-plugins
+```
+
+After `/reload-plugins`, `/paper:explain`, `/paper:scaffold`,
+`/paper:refs`, `/paper:build` show in `/help` and the
+`paper-writer` subagent appears in the Agent picker.
+
+To update later (after I push a new commit):
+
+```
+/plugin uninstall paper@paper-claude-plugin
+/plugin marketplace remove paper-claude-plugin
+/plugin marketplace add https://github.com/borisbolliet/paper-claude-plugin.git
+/plugin install paper@paper-claude-plugin
+/reload-plugins
 ```
 
 ## Environment
@@ -75,15 +84,17 @@ From a marketplace (once published):
 ## Layout
 
 ```
-.claude-plugin/plugin.json
-skills/
-  explain/SKILL.md         # always-on knowledge
-  explain/reference.md     # loaded on demand
-  scaffold/SKILL.md        # /paper:scaffold
-  refs/SKILL.md            # /paper:refs
-  build/SKILL.md           # /paper:build
-agents/
-  paper-writer.md          # subagent
+.claude-plugin/marketplace.json    # single-plugin marketplace
+plugins/paper/
+  .claude-plugin/plugin.json       # plugin manifest
+  skills/
+    explain/SKILL.md               # always-on knowledge
+    explain/reference.md           # loaded on demand
+    scaffold/SKILL.md              # /paper:scaffold
+    refs/SKILL.md                  # /paper:refs
+    build/SKILL.md                 # /paper:build
+  agents/
+    paper-writer.md                # subagent
 ```
 
 ## License
